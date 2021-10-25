@@ -66,7 +66,7 @@ package pingpong;
 
 }*/
 
-public class Player implements Runnable {
+/*public class Player implements Runnable {
 
 
 
@@ -98,25 +98,35 @@ public class Player implements Runnable {
 
 
 
-    @Override
+   @Override
 
     public void run() {
 
-        while(!gameFinished()) {
+        while(!Thread.interrupted()) {
 
-            while(!mustPlay);
+            while (!mustPlay);
+
+
+
+            try {
+
+                Thread.sleep(1);
+
+            } catch (InterruptedException e) {
+
+                e.printStackTrace();
+
+            }
+
 
 
             System.out.println(text);
-
-            turns--;
 
 
 
             this.mustPlay = false;
 
             nextPlayer.mustPlay = true;
-
 
 
         }
@@ -128,6 +138,72 @@ public class Player implements Runnable {
     private boolean gameFinished() {
 
         return turns == 0;
+
+    }
+
+
+
+    public void setNextPlayer(Player nextPlayer) {
+
+        this.nextPlayer = nextPlayer;
+
+    }
+
+
+
+    public void setMustPlay(boolean mustPlay) {
+
+        this.mustPlay = mustPlay;
+
+    }
+
+}*/
+
+public class Player implements Runnable {
+
+
+
+    private final String text;
+
+
+
+    private Player nextPlayer;
+
+
+
+    private volatile boolean mustPlay = false;
+
+
+
+    public Player(String text) {
+
+        this.text = text;
+
+    }
+
+
+
+    @Override
+
+    public void run() {
+
+        while(!Thread.interrupted()) {
+
+            while (!mustPlay);
+
+
+
+            System.out.println(text);
+
+
+
+            this.mustPlay = false;
+
+            nextPlayer.mustPlay = true;
+
+
+
+        }
 
     }
 
